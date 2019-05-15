@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestInMemDb", "TestInMemDb\TestInMemDb.csproj", "{D5DC976A-559C-40C9-A749-FBE7EC7063BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestInMemDb.Tests", "TestInMemDb.Tests\TestInMemDb.Tests.csproj", "{AD2CB771-2789-4036-8A6E-1DC80F763D1D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5DC976A-559C-40C9-A749-FBE7EC7063BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5DC976A-559C-40C9-A749-FBE7EC7063BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5DC976A-559C-40C9-A749-FBE7EC7063BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5DC976A-559C-40C9-A749-FBE7EC7063BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD2CB771-2789-4036-8A6E-1DC80F763D1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD2CB771-2789-4036-8A6E-1DC80F763D1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD2CB771-2789-4036-8A6E-1DC80F763D1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD2CB771-2789-4036-8A6E-1DC80F763D1D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6D40FEB8-A860-4B04-AC61-7B9B3071D3DA}
+	EndGlobalSection
+EndGlobal
