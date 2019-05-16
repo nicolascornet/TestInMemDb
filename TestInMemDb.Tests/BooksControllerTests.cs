@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using TestInMemDb.Data;
@@ -24,8 +25,8 @@ namespace TestInMemDb.Tests
         public async void TestGetBooks()
         {
             using (var scope = _serviceProvider.CreateScope())
-            using (var context = scope.ServiceProvider.GetRequiredService<TestDbContext>())
             {
+                var context = scope.ServiceProvider.GetRequiredService<TestDbContext>();
                 var book1 = new Book { Name = "Book1" };
                 var book2 = new Book { Name = "Book2" };
                 context.Books.AddRange(book1, book2);
@@ -45,9 +46,8 @@ namespace TestInMemDb.Tests
         [Fact]
         public async void TestPostBook()
         {
-            using (var scope = _serviceProvider.CreateScope())
-            using (var context = scope.ServiceProvider.GetRequiredService<TestDbContext>())
-            {
+            using (var scope = _serviceProvider.CreateScope()){
+                var context = scope.ServiceProvider.GetRequiredService<TestDbContext>();
                 var book1 = new Book { Name = "Book1" };
                 var book2 = new Book { Name = "Book2" };
                 context.Books.AddRange(book1, book2);
@@ -68,8 +68,8 @@ namespace TestInMemDb.Tests
         public async void TestPutBook()
         {
             using (var scope = _serviceProvider.CreateScope())
-            using (var context = scope.ServiceProvider.GetRequiredService<TestDbContext>())
             {
+                var context = scope.ServiceProvider.GetRequiredService<TestDbContext>();
                 var book1 = new Book { Name = "Book1" };
                 var book2 = new Book { Name = "Book2" };
                 context.Books.AddRange(book1, book2);
@@ -87,8 +87,10 @@ namespace TestInMemDb.Tests
                 Assert.Equal("Book1Update", book1.Name);
 
                 book1 = context.Books.Find(book1.Id);
+                context.Entry(book1).Reload(); // refresh to make sure we can get the book1 
+                
                 Assert.NotNull(book1);
-                //this fails book1.Name is still equal to "Book1"
+                
                 Assert.Equal("Book1Update", book1.Name);
             }
         }
@@ -99,21 +101,19 @@ namespace TestInMemDb.Tests
             using (var scope = _serviceProvider.CreateScope())
             {
                 Book book1;
-                using (var context = scope.ServiceProvider.GetRequiredService<TestDbContext>())
-                {
-                    book1 = new Book { Name = "Book1" };
-                    context.Books.AddRange(book1);
-                    context.SaveChanges();
+                var context = scope.ServiceProvider.GetRequiredService<TestDbContext>();
+                book1 = new Book { Name = "Book1" };
+                context.Books.AddRange(book1);
+                context.SaveChanges();
 
-                    var updateResp = await _httpClient.PutAsJsonAsync($"/api/books/{book1.Id}", "Book1Update");
-                    updateResp.EnsureSuccessStatusCode();
 
-                }
+                var updateResp = await _httpClient.PutAsJsonAsync($"/api/books/{book1.Id}", "Book1Update");
+                updateResp.EnsureSuccessStatusCode();
 
-                using (var context = scope.ServiceProvider.GetRequiredService<TestDbContext>())
-                {
-                    //this fails context is already disposed
-                    book1 = context.Books.Find(book1.Id);
+                using(var scope2= scope.ServiceProvider.CreateScope()){
+                    var context2 = scope2.ServiceProvider.GetRequiredService<TestDbContext>();
+                    
+                    book1 = context2.Books.Find(book1.Id);
                     Assert.NotNull(book1);
                     Assert.Equal("Book1Update", book1.Name);
                 }
