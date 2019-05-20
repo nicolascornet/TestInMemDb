@@ -18,6 +18,7 @@ steps:
   inputs:
     packageType: 'sdk'
     version: '2.2.4'
+    includePreviewVersions: true
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 - task: DotNetCoreCLI@2
